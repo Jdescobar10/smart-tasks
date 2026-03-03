@@ -1,0 +1,7 @@
+{
+  "name": "smart-tasks",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
