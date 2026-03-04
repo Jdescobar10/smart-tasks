@@ -204,13 +204,13 @@ export class TasksPage implements OnInit {
     await alert.present();
   }
 
-  goToTasks() {
-    this.router.navigate(['/tasks']);
-  }
+goToCategories() {
+  window.location.href = '/categories';
+}
 
-  goToCategories() {
-    this.router.navigate(['/categories']);
-  }
+goToTasks() {
+  window.location.href = '/tasks';
+}
 
   private async showToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({

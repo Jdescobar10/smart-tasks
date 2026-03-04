@@ -17,3 +17,5 @@ export const routes: Routes = [
       import('./presentation/pages/categories/categories.page').then(m => m.CategoriesPage)
   }
 ];
+
+
