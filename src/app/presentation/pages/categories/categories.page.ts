@@ -1,20 +1,151 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
+  IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons,
+  IonTabBar, IonTabButton,
+  ToastController, AlertController, ModalController
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  add, trashOutline, createOutline, pricetagsOutline, checkmarkCircleOutline
+} from 'ionicons/icons';
+
+import { CATEGORY_REPOSITORY_TOKEN } from '../../../core/tokens/repository.tokens';
+import { ICategoryRepository } from '../../../core/interfaces/category-repository.interface';
+import { CreateCategoryUseCase } from '../../../core/use-cases/category/create-category.usecase';
+import { UpdateCategoryUseCase } from '../../../core/use-cases/category/update-category.usecase';
+import { DeleteCategoryUseCase } from '../../../core/use-cases/category/delete-category.usecase';
+import { GetCategoriesUseCase } from '../../../core/use-cases/category/get-categories.usecase';
+import { Category } from '../../../core/models/category.model';
+import { CategoryModalComponent } from '../../shared/components/category-modal/category-modal.component';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.page.html',
   styleUrls: ['./categories.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [
+    CommonModule,
+    IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
+    IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons,
+    IonTabBar, IonTabButton
+  ]
 })
 export class CategoriesPage implements OnInit {
+  categories = signal<Category[]>([]);
 
-  constructor() { }
+  private getCategories: GetCategoriesUseCase;
+  private createCategoryUC: CreateCategoryUseCase;
+  private updateCategoryUC: UpdateCategoryUseCase;
+  private deleteCategoryUC: DeleteCategoryUseCase;
 
-  ngOnInit() {
+  constructor(
+    @Inject(CATEGORY_REPOSITORY_TOKEN) private categoryRepository: ICategoryRepository,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    private router: Router
+  ) {
+    addIcons({ add, trashOutline, createOutline, pricetagsOutline, checkmarkCircleOutline });
+    this.getCategories = new GetCategoriesUseCase(this.categoryRepository);
+    this.createCategoryUC = new CreateCategoryUseCase(this.categoryRepository);
+    this.updateCategoryUC = new UpdateCategoryUseCase(this.categoryRepository);
+    this.deleteCategoryUC = new DeleteCategoryUseCase(this.categoryRepository);
   }
 
+  async ngOnInit() {
+    await this.loadCategories();
+  }
+
+  async loadCategories() {
+    const data = await this.getCategories.execute();
+    this.categories.set(data);
+  }
+
+  async openCreateModal() {
+    const modal = await this.modalCtrl.create({
+      component: CategoryModalComponent,
+      componentProps: {
+        isEditing: false,
+        categoryData: { id: '', name: '', color: '#6C63FF' }
+      }
+    });
+    modal.onDidDismiss().then(async (result) => {
+      if (result.data) {
+        try {
+          await this.createCategoryUC.execute({
+            name: result.data.name,
+            color: result.data.color
+          });
+          await this.showToast('Category created!', 'success');
+          await this.loadCategories();
+        } catch (error: any) {
+          await this.showToast(error.message, 'danger');
+        }
+      }
+    });
+    await modal.present();
+  }
+
+  async openEditModal(category: Category) {
+    const modal = await this.modalCtrl.create({
+      component: CategoryModalComponent,
+      componentProps: {
+        isEditing: true,
+        categoryData: { id: category.id, name: category.name, color: category.color }
+      }
+    });
+    modal.onDidDismiss().then(async (result) => {
+      if (result.data) {
+        try {
+          await this.updateCategoryUC.execute(category.id, {
+            name: result.data.name,
+            color: result.data.color
+          });
+          await this.showToast('Category updated!', 'success');
+          await this.loadCategories();
+        } catch (error: any) {
+          await this.showToast(error.message, 'danger');
+        }
+      }
+    });
+    await modal.present();
+  }
+
+  async confirmDelete(category: Category) {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Category',
+      message: `Are you sure you want to delete "${category.name}"?`,
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: async () => {
+            await this.deleteCategoryUC.execute(category.id);
+            await this.loadCategories();
+            await this.showToast('Category deleted!', 'success');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  goToTasks() {
+    this.router.navigate(['/tasks']);
+  }
+
+  goToCategories() {
+    this.router.navigate(['/categories']);
+  }
+
+  private async showToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message, color, duration: 2000, position: 'bottom'
+    });
+    await toast.present();
+  }
 }

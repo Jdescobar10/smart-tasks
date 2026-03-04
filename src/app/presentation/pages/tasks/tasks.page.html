@@ -1,13 +1,106 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>tasks</ion-title>
+    <ion-title>Smart Tasks</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">tasks</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-searchbar
+    placeholder="Search tasks..."
+    (ionInput)="onSearch($event)"
+    animated>
+  </ion-searchbar>
+
+  <div class="filters-container">
+    <ion-chip
+      [class.active-chip]="selectedCategoryFilter() === null"
+      (click)="filterByCategory(null)">
+      All
+    </ion-chip>
+    @for (category of categories(); track category.id) {
+      <ion-chip
+        [class.active-chip]="selectedCategoryFilter() === category.id"
+        [style.--background]="selectedCategoryFilter() === category.id ? category.color : ''"
+        (click)="filterByCategory(category.id)">
+        {{ category.name }}
+      </ion-chip>
+    }
+  </div>
+
+  <div class="stats-container">
+    <div class="stat-card">
+      <span class="stat-number">{{ tasks().length }}</span>
+      <span class="stat-label">Total</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ pendingCount() }}</span>
+      <span class="stat-label">Pending</span>
+    </div>
+    <div class="stat-card completed">
+      <span class="stat-number">{{ completedCount() }}</span>
+      <span class="stat-label">Done</span>
+    </div>
+  </div>
+
+  @if (filteredTasks().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="list-outline"></ion-icon>
+      <h3>No tasks found</h3>
+      <p>Tap the + button to create your first task</p>
+    </div>
+  } @else {
+    <div class="task-list">
+      @for (task of filteredTasks(); track task.id) {
+        <div class="task-card" [class.completed-task]="task.completed">
+          @if (getCategoryById(task.categoryId ?? ''); as cat) {
+            <div class="category-bar" [style.background]="cat.color"></div>
+          }
+          <div class="task-content">
+            <div class="task-header">
+              <ion-checkbox
+                [checked]="task.completed"
+                (ionChange)="toggleComplete(task)">
+              </ion-checkbox>
+              <div class="task-info">
+                <h3 [class.strikethrough]="task.completed">{{ task.title }}</h3>
+                @if (task.description) {
+                  <p>{{ task.description }}</p>
+                }
+                @if (getCategoryById(task.categoryId ?? ''); as cat) {
+                  <ion-chip class="category-chip" [style.--background]="cat.color + '33'">
+                    <span [style.color]="cat.color">{{ cat.name }}</span>
+                  </ion-chip>
+                }
+              </div>
+            </div>
+            <div class="task-actions">
+              <ion-button fill="clear" size="small" (click)="openEditModal(task)">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" color="danger" (click)="confirmDelete(task)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openCreateModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<div class="bottom-nav">
+  <div class="nav-item active" (click)="goToTasks()">
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+    <span>Tasks</span>
+  </div>
+  <div class="nav-item" (click)="goToCategories()">
+    <ion-icon name="pricetags-outline"></ion-icon>
+    <span>Categories</span>
+  </div>
+</div>

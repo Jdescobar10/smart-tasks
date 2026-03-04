@@ -1,0 +1,33 @@
+ion-header ion-toolbar {
+  --background: linear-gradient(135deg, #6C63FF, #8B85FF);
+  --color: white;
+}
+
+ion-content {
+  --background: #F4F5F8;
+}
+
+.modal-form {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+ion-input, ion-textarea, ion-select {
+  --background: white;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.save-btn {
+  --background: linear-gradient(135deg, #6C63FF, #8B85FF);
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(108, 99, 255, 0.4);
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 8px;
+}

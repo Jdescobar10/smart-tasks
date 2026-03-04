@@ -1,13 +1,47 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>categories</ion-title>
+    <ion-title>Categories</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">categories</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  @if (categories().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="pricetags-outline"></ion-icon>
+      <h3>No categories yet</h3>
+      <p>Create your first category to organize your tasks</p>
+    </div>
+  } @else {
+    <ion-list>
+      @for (category of categories(); track category.id) {
+        <ion-item>
+          <div class="color-dot" [style.background]="category.color" slot="start"></div>
+          <ion-label>{{ category.name }}</ion-label>
+          <ion-button fill="clear" slot="end" (click)="openEditModal(category)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" slot="end" (click)="confirmDelete(category)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openCreateModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<div class="bottom-nav">
+  <div class="nav-item" (click)="goToTasks()">
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+    <span>Tasks</span>
+  </div>
+  <div class="nav-item active" (click)="goToCategories()">
+    <ion-icon name="pricetags-outline"></ion-icon>
+    <span>Categories</span>
+  </div>
+</div>

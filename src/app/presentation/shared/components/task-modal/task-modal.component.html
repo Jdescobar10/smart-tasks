@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isEditing ? '✏️ Edit Task' : '✨ New Task' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancel()" color="light">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="modal-form">
+
+    <ion-input
+      label="Task title *"
+      labelPlacement="floating"
+      fill="outline"
+      [(ngModel)]="form.title"
+      placeholder="What needs to be done?">
+    </ion-input>
+
+    <ion-textarea
+      label="Description"
+      labelPlacement="floating"
+      fill="outline"
+      [(ngModel)]="form.description"
+      placeholder="Add more details..."
+      [rows]="3">
+    </ion-textarea>
+
+    <ion-select
+      label="Category"
+      labelPlacement="floating"
+      fill="outline"
+      [(ngModel)]="form.categoryId"
+      placeholder="Select a category">
+      <ion-select-option [value]="null">📌 No category</ion-select-option>
+      @for (category of categories; track category.id) {
+        <ion-select-option [value]="category.id">
+          {{ category.name }}
+        </ion-select-option>
+      }
+    </ion-select>
+
+    <ion-button expand="block" class="save-btn" (click)="onSave()">
+      {{ isEditing ? 'Update Task' : 'Create Task' }}
+    </ion-button>
+
+  </div>
+</ion-content>

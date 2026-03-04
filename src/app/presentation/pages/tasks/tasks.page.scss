@@ -1,0 +1,151 @@
+.filters-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 16px;
+  gap: 8px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  ion-chip {
+    flex-shrink: 0;
+    --background: #e8e8e8;
+    color: #666;
+    transition: all 0.2s;
+  }
+
+  .active-chip {
+    --background: #6C63FF;
+    color: white;
+    font-weight: 600;
+  }
+}
+
+.stats-container {
+  display: flex;
+  gap: 12px;
+  padding: 8px 16px 16px;
+
+  .stat-card {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.completed {
+      background: #f0fff4;
+      .stat-number { color: #2DD36F; }
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #6C63FF;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.task-list {
+  background: transparent;
+  padding: 0 16px 120px;
+}
+
+.task-card {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  transition: opacity 0.3s;
+
+  &.completed-task { opacity: 0.6; }
+
+  .category-bar {
+    width: 4px;
+    background: #6C63FF;
+    flex-shrink: 0;
+  }
+
+  .task-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .task-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .task-info {
+    flex: 1;
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: #1A1A2E;
+
+      &.strikethrough {
+        text-decoration: line-through;
+        color: #999;
+      }
+    }
+
+    p {
+      font-size: 13px;
+      color: #888;
+      margin: 0 0 6px;
+    }
+  }
+
+  .category-chip {
+    height: 22px;
+    font-size: 11px;
+    margin: 0;
+  }
+
+  .task-actions {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// FAB fix
+ion-fab {
+  position: fixed !important;
+  bottom: 80px !important;
+  right: 16px !important;
+  z-index: 999 !important;
+}
+
+ion-fab-button {
+  --background: #6C63FF;
+  --background-activated: #8B85FF;
+  --box-shadow: 0 4px 16px rgba(108, 99, 255, 0.4);
+  width: 56px;
+  height: 56px;
+}
+
+ion-content {
+  --padding-bottom: 70px;
+}

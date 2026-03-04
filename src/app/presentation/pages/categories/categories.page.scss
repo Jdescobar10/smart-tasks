@@ -1,0 +1,56 @@
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.color-picker {
+  margin-top: 24px;
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+  }
+}
+
+.colors-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+ion-fab {
+  position: fixed !important;
+  bottom: 80px !important;
+  right: 16px !important;
+  z-index: 999 !important;
+}
+
+ion-fab-button {
+  --background: #6C63FF;
+  --background-activated: #8B85FF;
+  --box-shadow: 0 4px 16px rgba(108, 99, 255, 0.4);
+}
+
+ion-content {
+  --padding-bottom: 70px;
+}

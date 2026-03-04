@@ -1,0 +1,71 @@
+ion-header ion-toolbar {
+  --background: linear-gradient(135deg, #6C63FF, #8B85FF);
+  --color: white;
+}
+
+ion-content {
+  --background: #F4F5F8;
+}
+
+.modal-form {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+ion-input {
+  --background: white;
+  --border-radius: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.color-picker {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  p {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.colors-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.color-option {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.save-btn {
+  --background: linear-gradient(135deg, #6C63FF, #8B85FF);
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(108, 99, 255, 0.4);
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+}

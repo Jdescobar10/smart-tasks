@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isEditing ? '✏️ Edit' : '🏷️ New' }} Category</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancel()" color="light">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="modal-form">
+
+    <ion-input
+      label="Category name"
+      labelPlacement="floating"
+      fill="outline"
+      [(ngModel)]="form.name"
+      placeholder="e.g. Work, Personal...">
+    </ion-input>
+
+    <div class="color-picker">
+      <p>Select color</p>
+      <div class="colors-grid">
+        @for (color of colors; track color) {
+          <div
+            class="color-option"
+            [style.background]="color"
+            [class.selected]="form.color === color"
+            (click)="form.color = color">
+          </div>
+        }
+      </div>
+    </div>
+
+    <ion-button expand="block" class="save-btn" (click)="onSave()">
+      {{ isEditing ? 'Update Category' : 'Create Category' }}
+    </ion-button>
+
+  </div>
+</ion-content>
