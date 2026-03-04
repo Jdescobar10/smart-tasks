@@ -37,8 +37,8 @@ import { TaskModalComponent } from '../../shared/components/task-modal/task-moda
   imports: [
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-    IonIcon, IonButton, IonButtons, IonCheckbox, IonChip, IonSearchbar,
-    IonTabBar, IonTabButton, IonLabel
+    IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar
+    
   ]
 })
 export class TasksPage implements OnInit {

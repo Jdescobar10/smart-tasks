@@ -29,8 +29,7 @@ import { CategoryModalComponent } from '../../shared/components/category-modal/c
   imports: [
     CommonModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-    IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons,
-    IonTabBar, IonTabButton
+    IonIcon, IonList, IonItem, IonLabel, IonButton
   ]
 })
 export class CategoriesPage implements OnInit {

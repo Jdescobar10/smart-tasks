@@ -124,6 +124,39 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
+        },
+        "ionic-cordova-build": {
+          "builder": "@ionic/cordova-builders:cordova-build",
+          "options": {
+            "browserTarget": "app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app:build:production"
+            },
+            "development": {
+              "browserTarget": "app:build:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "ionic-cordova-serve": {
+          "builder": "@ionic/cordova-builders:cordova-serve",
+          "options": {
+            "cordovaBuildTarget": "app:ionic-cordova-build",
+            "devServerTarget": "app:serve"
+          },
+          "configurations": {
+            "production": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:production",
+              "devServerTarget": "app:serve:production"
+            },
+            "development": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:development",
+              "devServerTarget": "app:serve:development"
+            }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }
