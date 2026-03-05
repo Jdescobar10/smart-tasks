@@ -1,55 +1,5 @@
-// /*
-//  * App Global CSS
-//  * ----------------------------------------------------------------------------
-//  * Put style rules here that you want to apply globally. These styles are for
-//  * the entire app and not just one component. Additionally, this file can be
-//  * used as an entry point to import other CSS/Sass files to be included in the
-//  * output CSS.
-//  * For more information on global stylesheets, visit the documentation:
-//  * https://ionicframework.com/docs/layout/global-stylesheets
-//  */
-
-// /* Core CSS required for Ionic components to work properly */
-// @import "@ionic/angular/css/core.css";
-
-// /* Basic CSS for apps built with Ionic */
-// @import "@ionic/angular/css/normalize.css";
-// @import "@ionic/angular/css/structure.css";
-// @import "@ionic/angular/css/typography.css";
-// @import "@ionic/angular/css/display.css";
-
-// /* Optional CSS utils that can be commented out */
-// @import "@ionic/angular/css/padding.css";
-// @import "@ionic/angular/css/float-elements.css";
-// @import "@ionic/angular/css/text-alignment.css";
-// @import "@ionic/angular/css/text-transformation.css";
-// @import "@ionic/angular/css/flex-utils.css";
-
-// /**
-//  * Ionic Dark Mode
-//  * -----------------------------------------------------
-//  * For more info, please see:
-//  * https://ionicframework.com/docs/theming/dark-mode
-//  */
-
-// /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-// /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-// @import '@ionic/angular/css/palettes/dark.system.css';
-
-
 * {
   box-sizing: border-box;
-}
-
-:root {
-  --primary: #6C63FF;
-  --primary-light: #8B85FF;
-  --success: #2DD36F;
-  --danger: #EB445A;
-  --warning: #FFC409;
-  --dark: #1A1A2E;
-  --card-bg: #ffffff;
-  --page-bg: #F4F5F8;
 }
 
 ion-content {
@@ -57,7 +7,7 @@ ion-content {
 }
 
 ion-header ion-toolbar {
-  --background: var(--primary);
+  --background: var(--toolbar-bg);
   --color: white;
 }
 
@@ -66,7 +16,7 @@ ion-header ion-toolbar {
   border-radius: 16px;
   padding: 16px;
   margin: 8px 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: var(--card-shadow);
 }
 
 .empty-state {
@@ -75,7 +25,7 @@ ion-header ion-toolbar {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: #999;
+  color: var(--text-muted);
 
   ion-icon {
     font-size: 64px;
@@ -87,12 +37,14 @@ ion-header ion-toolbar {
     font-size: 18px;
     font-weight: 600;
     margin: 0 0 8px;
+    color: var(--text-primary);
   }
 
   p {
     font-size: 14px;
     text-align: center;
     margin: 0;
+    color: var(--text-secondary);
   }
 }
 
@@ -107,12 +59,13 @@ ion-header ion-toolbar {
   left: 0;
   right: 0;
   height: 60px;
-  background: white;
+  background: var(--nav-bg);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--nav-shadow);
   z-index: 1000;
+  transition: background 0.3s;
 
   .nav-item {
     display: flex;
@@ -123,7 +76,7 @@ ion-header ion-toolbar {
     padding: 8px 24px;
     border-radius: 12px;
     transition: all 0.2s;
-    color: #999;
+    color: var(--text-muted);
 
     ion-icon {
       font-size: 22px;
@@ -135,12 +88,65 @@ ion-header ion-toolbar {
     }
 
     &.active {
-      color: #6C63FF;
+      color: var(--primary);
     }
 
     &:hover {
-      background: #f0eeff;
-      color: #6C63FF;
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+    }
+  }
+}
+
+// Fix ion-select popover en dark mode
+body.dark {
+  .alert-wrapper,
+  .select-interface-option,
+  ion-alert .alert-wrapper {
+    background: #1e1e30 !important;
+  }
+
+  .alert-radio-label,
+  .alert-checkbox-label {
+    color: #f0f0ff !important;
+  }
+
+  .alert-title {
+    color: #f0f0ff !important;
+  }
+
+  .alert-message {
+    color: #aaaacc !important;
+  }
+
+  .alert-button-group button {
+    color: #8B85FF !important;
+  }
+
+  // Select popover options
+  .popover-content {
+    background: #1e1e30 !important;
+  }
+
+  ion-popover {
+    --background: #1e1e30;
+
+    ion-list {
+      background: #1e1e30 !important;
+    }
+
+    ion-item {
+      --background: #1e1e30;
+      --color: #f0f0ff;
+    }
+
+    ion-label {
+      color: #f0f0ff !important;
+    }
+
+    ion-radio {
+      --color: #8B85FF;
+      --color-checked: #8B85FF;
     }
   }
 }

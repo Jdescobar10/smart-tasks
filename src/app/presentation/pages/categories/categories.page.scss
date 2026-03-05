@@ -10,7 +10,7 @@
 
   p {
     font-size: 14px;
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 12px;
   }
 }
@@ -30,7 +30,7 @@
 
   &.selected {
     transform: scale(1.2);
-    box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor;
+    box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px currentColor;
   }
 
   &:hover {
@@ -46,8 +46,8 @@ ion-fab {
 }
 
 ion-fab-button {
-  --background: #6C63FF;
-  --background-activated: #8B85FF;
+  --background: var(--primary);
+  --background-activated: var(--primary-light);
   --box-shadow: 0 4px 16px rgba(108, 99, 255, 0.4);
 }
 

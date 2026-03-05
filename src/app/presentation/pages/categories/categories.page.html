@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Categories</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="themeService.toggleTheme()">
+        <ion-icon [name]="themeService.isDarkMode() ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

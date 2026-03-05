@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Smart Tasks</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="themeService.toggleTheme()">
+        <ion-icon [name]="themeService.isDarkMode() ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -56,7 +61,6 @@
       @for (task of filteredTasks(); track task.id) {
         <div class="task-card" [class.completed-task]="task.completed">
 
-          <!-- FEATURE FLAG: solo muestra barra de color de categoría si show_categories = true -->
           @if (showCategories()) {
             @if (getCategoryById(task.categoryId ?? ''); as cat) {
               <div class="category-bar" [style.background]="cat.color"></div>
@@ -74,8 +78,6 @@
                 @if (task.description) {
                   <p>{{ task.description }}</p>
                 }
-
-                <!-- FEATURE FLAG: solo muestra chip de categoría si show_categories = true -->
                 @if (showCategories()) {
                   @if (getCategoryById(task.categoryId ?? ''); as cat) {
                     <ion-chip class="category-chip" [style.--background]="cat.color + '33'">
@@ -83,7 +85,6 @@
                     </ion-chip>
                   }
                 }
-
               </div>
             </div>
             <div class="task-actions">
@@ -112,13 +113,10 @@
     <ion-icon name="checkmark-circle-outline"></ion-icon>
     <span>Tasks</span>
   </div>
-
-  <!-- FEATURE FLAG: solo muestra botón de navegación a categorías si show_categories = true -->
   @if (showCategories()) {
     <div class="nav-item" (click)="goToCategories()">
       <ion-icon name="pricetags-outline"></ion-icon>
       <span>Categories</span>
     </div>
   }
-
 </div>

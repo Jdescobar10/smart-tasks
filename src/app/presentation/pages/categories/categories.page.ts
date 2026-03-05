@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-  IonIcon, IonList, IonItem, IonLabel, IonButton,
+  IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons,
   ToastController, AlertController, ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  add, trashOutline, createOutline, pricetagsOutline, checkmarkCircleOutline
+  add, trashOutline, createOutline, pricetagsOutline,
+  checkmarkCircleOutline, moonOutline, sunnyOutline
 } from 'ionicons/icons';
 
 import { CATEGORY_REPOSITORY_TOKEN } from '../../../core/tokens/repository.tokens';
@@ -19,6 +20,7 @@ import { DeleteCategoryUseCase } from '../../../core/use-cases/category/delete-c
 import { GetCategoriesUseCase } from '../../../core/use-cases/category/get-categories.usecase';
 import { Category } from '../../../core/models/category.model';
 import { CategoryModalComponent } from '../../shared/components/category-modal/category-modal.component';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-categories',
@@ -28,13 +30,11 @@ import { CategoryModalComponent } from '../../shared/components/category-modal/c
   imports: [
     CommonModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-    IonIcon, IonList, IonItem, IonLabel, IonButton
+    IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons
   ]
 })
 export class CategoriesPage implements OnInit, OnDestroy {
   categories = signal<Category[]>([]);
-
-  // Computed: estadísticas calculadas automáticamente sin métodos extra
   totalCategories = computed(() => this.categories().length);
 
   private getCategories: GetCategoriesUseCase;
@@ -47,9 +47,13 @@ export class CategoriesPage implements OnInit, OnDestroy {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) {
-    addIcons({ add, trashOutline, createOutline, pricetagsOutline, checkmarkCircleOutline });
+    addIcons({
+      add, trashOutline, createOutline, pricetagsOutline,
+      checkmarkCircleOutline, moonOutline, sunnyOutline
+    });
     this.getCategories = new GetCategoriesUseCase(this.categoryRepository);
     this.createCategoryUC = new CreateCategoryUseCase(this.categoryRepository);
     this.updateCategoryUC = new UpdateCategoryUseCase(this.categoryRepository);
@@ -61,7 +65,6 @@ export class CategoriesPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Limpieza de signals para liberar memoria
     this.categories.set([]);
   }
 

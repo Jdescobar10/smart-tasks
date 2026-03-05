@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-  IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar,
+  IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar, IonButtons,
   ToastController, AlertController, ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   add, trashOutline, createOutline, checkmarkCircle,
   ellipseOutline, listOutline, searchOutline, funnelOutline,
-  checkmarkCircleOutline, pricetagsOutline
+  checkmarkCircleOutline, pricetagsOutline, moonOutline, sunnyOutline
 } from 'ionicons/icons';
 
 import { TASK_REPOSITORY_TOKEN, CATEGORY_REPOSITORY_TOKEN } from '../../../core/tokens/repository.tokens';
@@ -28,6 +28,7 @@ import { Task } from '../../../core/models/task.model';
 import { Category } from '../../../core/models/category.model';
 import { TaskModalComponent } from '../../shared/components/task-modal/task-modal.component';
 import { RemoteConfigService } from '../../../core/services/remote-config.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-tasks',
@@ -37,23 +38,20 @@ import { RemoteConfigService } from '../../../core/services/remote-config.servic
   imports: [
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-    IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar
+    IonIcon, IonButton, IonButtons, IonCheckbox, IonChip, IonSearchbar
   ]
 })
 export class TasksPage implements OnInit, OnDestroy {
-  // --- Signals ---
   tasks = signal<Task[]>([]);
   categories = signal<Category[]>([]);
   selectedCategoryFilter = signal<string | null>(null);
   searchQuery = signal('');
   showCategories = signal<boolean>(true);
 
-  // --- Computed signals (evitan recalculos innecesarios) ---
   filteredTasks = computed(() => {
     let result = this.tasks();
     const categoryFilter = this.selectedCategoryFilter();
     const query = this.searchQuery().toLowerCase();
-
     if (categoryFilter) {
       result = result.filter(t => t.categoryId === categoryFilter);
     }
@@ -69,7 +67,6 @@ export class TasksPage implements OnInit, OnDestroy {
   pendingCount = computed(() => this.tasks().filter(t => !t.completed).length);
   completedCount = computed(() => this.tasks().filter(t => t.completed).length);
 
-  // --- Mapa de categorías para O(1) lookup en lugar de O(n) ---
   private categoryMap = computed(() => {
     const map = new Map<string, Category>();
     this.categories().forEach(c => map.set(c.id, c));
@@ -89,12 +86,13 @@ export class TasksPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
     private router: Router,
-    private remoteConfigService: RemoteConfigService
+    private remoteConfigService: RemoteConfigService,
+    public themeService: ThemeService
   ) {
     addIcons({
       add, trashOutline, createOutline, checkmarkCircle,
       ellipseOutline, listOutline, searchOutline, funnelOutline,
-      checkmarkCircleOutline, pricetagsOutline
+      checkmarkCircleOutline, pricetagsOutline, moonOutline, sunnyOutline
     });
     this.getTasksUC = new GetTasksUseCase(this.taskRepository);
     this.createTaskUC = new CreateTaskUseCase(this.taskRepository);
@@ -109,13 +107,11 @@ export class TasksPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Limpieza de signals para liberar memoria
     this.tasks.set([]);
     this.categories.set([]);
   }
 
   async loadData() {
-    // Carga paralela para reducir tiempo de espera
     const [tasks, categories] = await Promise.all([
       this.getTasksUC.execute(),
       this.getCategoriesUC.execute()
@@ -132,7 +128,6 @@ export class TasksPage implements OnInit, OnDestroy {
     this.searchQuery.set(event.detail.value ?? '');
   }
 
-  // O(1) gracias al Map en lugar de O(n) con find()
   getCategoryById(id: string | null): Category | undefined {
     if (!id) return undefined;
     return this.categoryMap().get(id);

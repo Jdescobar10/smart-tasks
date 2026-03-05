@@ -4,7 +4,7 @@ ion-header ion-toolbar {
 }
 
 ion-content {
-  --background: #F4F5F8;
+  --background: var(--page-bg);
 }
 
 .modal-form {
@@ -15,22 +15,25 @@ ion-content {
 }
 
 ion-input {
-  --background: white;
+  --background: var(--card-bg);
+  --color: var(--text-primary);
+  --placeholder-color: var(--text-muted);
   --border-radius: 12px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: var(--card-shadow);
 }
 
 .color-picker {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: var(--card-shadow);
+  transition: background 0.3s;
 
   p {
     font-size: 13px;
     font-weight: 600;
-    color: #666;
+    color: var(--text-secondary);
     margin: 0 0 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -53,7 +56,7 @@ ion-input {
 
   &.selected {
     transform: scale(1.2);
-    box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor;
+    box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px currentColor;
   }
 
   &:hover {

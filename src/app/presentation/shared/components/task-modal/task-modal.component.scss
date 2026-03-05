@@ -4,7 +4,7 @@ ion-header ion-toolbar {
 }
 
 ion-content {
-  --background: #F4F5F8;
+  --background: var(--page-bg);
 }
 
 .modal-form {
@@ -15,11 +15,13 @@ ion-content {
 }
 
 ion-input, ion-textarea, ion-select {
-  --background: white;
+  --background: var(--card-bg);
+  --color: var(--text-primary);
+  --placeholder-color: var(--text-muted);
   --border-radius: 12px;
   --padding-start: 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: var(--card-shadow);
 }
 
 .save-btn {

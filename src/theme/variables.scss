@@ -1,2 +1,160 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+// =====================
+// LIGHT MODE (default)
+// =====================
+:root {
+  --primary: #6C63FF;
+  --primary-light: #8B85FF;
+  --success: #2DD36F;
+  --danger: #EB445A;
+  --warning: #FFC409;
+
+  // Backgrounds
+  --page-bg: #F4F5F8;
+  --card-bg: #ffffff;
+  --nav-bg: #ffffff;
+  --toolbar-bg: #6C63FF;
+
+  // Texts
+  --text-primary: #1A1A2E;
+  --text-secondary: #888888;
+  --text-muted: #999999;
+
+  // Borders & shadows
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --nav-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+
+  // Chips
+  --chip-bg: #e8e8e8;
+  --chip-color: #666666;
+
+  // Stats
+  --stat-completed-bg: #f0fff4;
+}
+
+// =====================
+// DARK MODE
+// =====================
+body.dark {
+  --primary: #8B85FF;
+  --primary-light: #6C63FF;
+  --success: #2DD36F;
+  --danger: #EB445A;
+  --warning: #FFC409;
+
+  // Backgrounds
+  --page-bg: #0f0f1a;
+  --card-bg: #1e1e30;
+  --nav-bg: #1e1e30;
+  --toolbar-bg: #1e1e30;
+
+  // Texts
+  --text-primary: #f0f0ff;
+  --text-secondary: #aaaacc;
+  --text-muted: #7777aa;
+
+  // Borders & shadows
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --nav-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
+
+  // Chips
+  --chip-bg: #2a2a3e;
+  --chip-color: #aaaacc;
+
+  // Stats
+  --stat-completed-bg: #0d2b1a;
+
+  // Ionic overrides
+  --ion-background-color: #0f0f1a;
+  --ion-background-color-rgb: 15, 15, 26;
+  --ion-text-color: #f0f0ff;
+  --ion-text-color-rgb: 240, 240, 255;
+  --ion-card-background: #1e1e30;
+  --ion-item-background: #1e1e30;
+  --ion-toolbar-background: #1e1e30;
+  --ion-tab-bar-background: #1e1e30;
+  --ion-border-color: #2a2a3e;
+}
+
+// =====================
+// DARK MODE OVERRIDES
+// =====================
+body.dark {
+
+  // Searchbar
+  ion-searchbar {
+    --background: #1e1e30;
+    --color: #f0f0ff;
+    --placeholder-color: #7777aa;
+    --icon-color: #7777aa;
+    --clear-button-color: #7777aa;
+  }
+
+  // Items de lista
+  ion-item {
+    --background: #1e1e30;
+    --color: #f0f0ff;
+    --border-color: #2a2a3e;
+  }
+
+  // Chips
+  ion-chip {
+    --color: #f0f0ff;
+  }
+
+  // Inputs y selects en modales
+  ion-input {
+    --color: #f0f0ff;
+    --placeholder-color: #7777aa;
+  }
+
+  ion-textarea {
+    --color: #f0f0ff;
+    --placeholder-color: #7777aa;
+  }
+
+  ion-select {
+    --color: #f0f0ff;
+    --placeholder-color: #7777aa;
+  }
+
+  // Labels
+  ion-label {
+    color: #f0f0ff !important;
+  }
+
+  // Checkbox
+  ion-checkbox {
+    --border-color: #7777aa;
+  }
+
+  // Alert dialogs
+  ion-alert {
+    --background: #1e1e30;
+    --message-color: #f0f0ff;
+
+    .alert-title {
+      color: #f0f0ff;
+    }
+
+    .alert-message {
+      color: #aaaacc;
+    }
+
+    .alert-button {
+      color: #8B85FF;
+    }
+  }
+
+  // Select popover
+  ion-select-popover {
+    --background: #1e1e30;
+
+    ion-item {
+      --background: #1e1e30;
+      --color: #f0f0ff;
+    }
+  }
+}
