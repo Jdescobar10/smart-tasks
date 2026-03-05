@@ -1,10 +1,9 @@
-import { Component, OnInit, signal, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-  IonIcon, IonList, IonItem, IonLabel, IonButton, IonButtons,
-  IonTabBar, IonTabButton,
+  IonIcon, IonList, IonItem, IonLabel, IonButton,
   ToastController, AlertController, ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -32,8 +31,11 @@ import { CategoryModalComponent } from '../../shared/components/category-modal/c
     IonIcon, IonList, IonItem, IonLabel, IonButton
   ]
 })
-export class CategoriesPage implements OnInit {
+export class CategoriesPage implements OnInit, OnDestroy {
   categories = signal<Category[]>([]);
+
+  // Computed: estadísticas calculadas automáticamente sin métodos extra
+  totalCategories = computed(() => this.categories().length);
 
   private getCategories: GetCategoriesUseCase;
   private createCategoryUC: CreateCategoryUseCase;
@@ -56,6 +58,11 @@ export class CategoriesPage implements OnInit {
 
   async ngOnInit() {
     await this.loadCategories();
+  }
+
+  ngOnDestroy() {
+    // Limpieza de signals para liberar memoria
+    this.categories.set([]);
   }
 
   async loadCategories() {
@@ -133,13 +140,13 @@ export class CategoriesPage implements OnInit {
     await alert.present();
   }
 
-goToCategories() {
-  window.location.href = '/categories';
-}
+  goToCategories() {
+    window.location.href = '/categories';
+  }
 
-goToTasks() {
-  window.location.href = '/tasks';
-}
+  goToTasks() {
+    window.location.href = '/tasks';
+  }
 
   private async showToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({

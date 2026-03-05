@@ -1,10 +1,10 @@
-import { Component, OnInit, signal, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
-  IonIcon, IonButton, IonButtons, IonCheckbox, IonChip, IonSearchbar,
+  IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar,
   ToastController, AlertController, ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -40,16 +40,41 @@ import { RemoteConfigService } from '../../../core/services/remote-config.servic
     IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar
   ]
 })
-export class TasksPage implements OnInit {
+export class TasksPage implements OnInit, OnDestroy {
+  // --- Signals ---
   tasks = signal<Task[]>([]);
   categories = signal<Category[]>([]);
-  filteredTasks = signal<Task[]>([]);
   selectedCategoryFilter = signal<string | null>(null);
   searchQuery = signal('');
-  showCategories = signal<boolean>(true); // Feature flag
+  showCategories = signal<boolean>(true);
 
-  pendingCount = () => this.tasks().filter(t => !t.completed).length;
-  completedCount = () => this.tasks().filter(t => t.completed).length;
+  // --- Computed signals (evitan recalculos innecesarios) ---
+  filteredTasks = computed(() => {
+    let result = this.tasks();
+    const categoryFilter = this.selectedCategoryFilter();
+    const query = this.searchQuery().toLowerCase();
+
+    if (categoryFilter) {
+      result = result.filter(t => t.categoryId === categoryFilter);
+    }
+    if (query) {
+      result = result.filter(t =>
+        t.title.toLowerCase().includes(query) ||
+        t.description?.toLowerCase().includes(query)
+      );
+    }
+    return result;
+  });
+
+  pendingCount = computed(() => this.tasks().filter(t => !t.completed).length);
+  completedCount = computed(() => this.tasks().filter(t => t.completed).length);
+
+  // --- Mapa de categorías para O(1) lookup en lugar de O(n) ---
+  private categoryMap = computed(() => {
+    const map = new Map<string, Category>();
+    this.categories().forEach(c => map.set(c.id, c));
+    return map;
+  });
 
   private getTasksUC: GetTasksUseCase;
   private createTaskUC: CreateTaskUseCase;
@@ -79,48 +104,38 @@ export class TasksPage implements OnInit {
   }
 
   async ngOnInit() {
-    // Leer feature flag de Remote Config
     this.showCategories.set(this.remoteConfigService.getShowCategories());
     await this.loadData();
   }
 
+  ngOnDestroy() {
+    // Limpieza de signals para liberar memoria
+    this.tasks.set([]);
+    this.categories.set([]);
+  }
+
   async loadData() {
+    // Carga paralela para reducir tiempo de espera
     const [tasks, categories] = await Promise.all([
       this.getTasksUC.execute(),
       this.getCategoriesUC.execute()
     ]);
     this.tasks.set(tasks);
     this.categories.set(categories);
-    this.applyFilters();
-  }
-
-  applyFilters() {
-    let result = [...this.tasks()];
-    if (this.selectedCategoryFilter()) {
-      result = result.filter(t => t.categoryId === this.selectedCategoryFilter());
-    }
-    if (this.searchQuery()) {
-      const q = this.searchQuery().toLowerCase();
-      result = result.filter(t =>
-        t.title.toLowerCase().includes(q) ||
-        t.description?.toLowerCase().includes(q)
-      );
-    }
-    this.filteredTasks.set(result);
   }
 
   filterByCategory(categoryId: string | null) {
     this.selectedCategoryFilter.set(categoryId);
-    this.applyFilters();
   }
 
   onSearch(event: any) {
     this.searchQuery.set(event.detail.value ?? '');
-    this.applyFilters();
   }
 
+  // O(1) gracias al Map en lugar de O(n) con find()
   getCategoryById(id: string | null): Category | undefined {
-    return this.categories().find(c => c.id === id);
+    if (!id) return undefined;
+    return this.categoryMap().get(id);
   }
 
   async openCreateModal() {
