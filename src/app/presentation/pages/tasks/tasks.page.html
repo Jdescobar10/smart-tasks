@@ -11,21 +11,24 @@
     animated>
   </ion-searchbar>
 
-  <div class="filters-container">
-    <ion-chip
-      [class.active-chip]="selectedCategoryFilter() === null"
-      (click)="filterByCategory(null)">
-      All
-    </ion-chip>
-    @for (category of categories(); track category.id) {
+  <!-- FEATURE FLAG: solo muestra filtros de categoría si show_categories = true -->
+  @if (showCategories()) {
+    <div class="filters-container">
       <ion-chip
-        [class.active-chip]="selectedCategoryFilter() === category.id"
-        [style.--background]="selectedCategoryFilter() === category.id ? category.color : ''"
-        (click)="filterByCategory(category.id)">
-        {{ category.name }}
+        [class.active-chip]="selectedCategoryFilter() === null"
+        (click)="filterByCategory(null)">
+        All
       </ion-chip>
-    }
-  </div>
+      @for (category of categories(); track category.id) {
+        <ion-chip
+          [class.active-chip]="selectedCategoryFilter() === category.id"
+          [style.--background]="selectedCategoryFilter() === category.id ? category.color : ''"
+          (click)="filterByCategory(category.id)">
+          {{ category.name }}
+        </ion-chip>
+      }
+    </div>
+  }
 
   <div class="stats-container">
     <div class="stat-card">
@@ -52,9 +55,14 @@
     <div class="task-list">
       @for (task of filteredTasks(); track task.id) {
         <div class="task-card" [class.completed-task]="task.completed">
-          @if (getCategoryById(task.categoryId ?? ''); as cat) {
-            <div class="category-bar" [style.background]="cat.color"></div>
+
+          <!-- FEATURE FLAG: solo muestra barra de color de categoría si show_categories = true -->
+          @if (showCategories()) {
+            @if (getCategoryById(task.categoryId ?? ''); as cat) {
+              <div class="category-bar" [style.background]="cat.color"></div>
+            }
           }
+
           <div class="task-content">
             <div class="task-header">
               <ion-checkbox
@@ -66,11 +74,16 @@
                 @if (task.description) {
                   <p>{{ task.description }}</p>
                 }
-                @if (getCategoryById(task.categoryId ?? ''); as cat) {
-                  <ion-chip class="category-chip" [style.--background]="cat.color + '33'">
-                    <span [style.color]="cat.color">{{ cat.name }}</span>
-                  </ion-chip>
+
+                <!-- FEATURE FLAG: solo muestra chip de categoría si show_categories = true -->
+                @if (showCategories()) {
+                  @if (getCategoryById(task.categoryId ?? ''); as cat) {
+                    <ion-chip class="category-chip" [style.--background]="cat.color + '33'">
+                      <span [style.color]="cat.color">{{ cat.name }}</span>
+                    </ion-chip>
+                  }
                 }
+
               </div>
             </div>
             <div class="task-actions">
@@ -99,8 +112,13 @@
     <ion-icon name="checkmark-circle-outline"></ion-icon>
     <span>Tasks</span>
   </div>
-  <div class="nav-item" (click)="goToCategories()">
-    <ion-icon name="pricetags-outline"></ion-icon>
-    <span>Categories</span>
-  </div>
+
+  <!-- FEATURE FLAG: solo muestra botón de navegación a categorías si show_categories = true -->
+  @if (showCategories()) {
+    <div class="nav-item" (click)="goToCategories()">
+      <ion-icon name="pricetags-outline"></ion-icon>
+      <span>Categories</span>
+    </div>
+  }
+
 </div>

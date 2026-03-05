@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { RemoteConfigService } from './core/services/remote-config.service';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <ion-app>
-      <ion-router-outlet></ion-router-outlet>
-    </ion-app>
-  `,
+  templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet, RouterModule]
+  imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  constructor(private remoteConfigService: RemoteConfigService) {}
+
+  async ngOnInit() {
+    await this.remoteConfigService.initialize();
+  }
+}

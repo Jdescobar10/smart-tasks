@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
   IonIcon, IonButton, IonButtons, IonCheckbox, IonChip, IonSearchbar,
-  IonTabBar, IonTabButton, IonLabel,
   ToastController, AlertController, ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -28,6 +27,7 @@ import { GetCategoriesUseCase } from '../../../core/use-cases/category/get-categ
 import { Task } from '../../../core/models/task.model';
 import { Category } from '../../../core/models/category.model';
 import { TaskModalComponent } from '../../shared/components/task-modal/task-modal.component';
+import { RemoteConfigService } from '../../../core/services/remote-config.service';
 
 @Component({
   selector: 'app-tasks',
@@ -38,7 +38,6 @@ import { TaskModalComponent } from '../../shared/components/task-modal/task-moda
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonFab, IonFabButton,
     IonIcon, IonButton, IonCheckbox, IonChip, IonSearchbar
-    
   ]
 })
 export class TasksPage implements OnInit {
@@ -47,6 +46,7 @@ export class TasksPage implements OnInit {
   filteredTasks = signal<Task[]>([]);
   selectedCategoryFilter = signal<string | null>(null);
   searchQuery = signal('');
+  showCategories = signal<boolean>(true); // Feature flag
 
   pendingCount = () => this.tasks().filter(t => !t.completed).length;
   completedCount = () => this.tasks().filter(t => t.completed).length;
@@ -63,7 +63,8 @@ export class TasksPage implements OnInit {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-    private router: Router
+    private router: Router,
+    private remoteConfigService: RemoteConfigService
   ) {
     addIcons({
       add, trashOutline, createOutline, checkmarkCircle,
@@ -78,6 +79,8 @@ export class TasksPage implements OnInit {
   }
 
   async ngOnInit() {
+    // Leer feature flag de Remote Config
+    this.showCategories.set(this.remoteConfigService.getShowCategories());
     await this.loadData();
   }
 
@@ -204,13 +207,13 @@ export class TasksPage implements OnInit {
     await alert.present();
   }
 
-goToCategories() {
-  window.location.href = '/categories';
-}
+  goToCategories() {
+    window.location.href = '/categories';
+  }
 
-goToTasks() {
-  window.location.href = '/tasks';
-}
+  goToTasks() {
+    window.location.href = '/tasks';
+  }
 
   private async showToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({
