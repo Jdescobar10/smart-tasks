@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica - Smart Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --text-color: #212529;
+            --code-bg: #f1f3f4;
+            --border-color: #dee2e6;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), #0056b3);
+            color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px 0;
+            color: var(--secondary-color);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .toc {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .toc li {
+            margin: 5px 0;
+        }
+
+        .toc a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            pre {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Documentación Técnica - Smart Tasks</h1>
+        <p>Guía completa para desarrolladores de la aplicación móvil híbrida</p>
+    </header>
+
+    <nav class="toc">
+        <h3>Tabla de Contenidos</h3>
+        <ul>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#arquitectura">Arquitectura de la Aplicación</a></li>
+            <li><a href="#tecnologias">Tecnologías Utilizadas</a></li>
+            <li><a href="#estructura">Estructura del Proyecto</a></li>
+            <li><a href="#configuracion">Configuración y Dependencias</a></li>
+            <li><a href="#servicios">Servicios y Repositorios</a></li>
+            <li><a href="#usecases">Use Cases</a></li>
+            <li><a href="#componentes">Componentes de Presentación</a></li>
+            <li><a href="#estado">Gestión de Estado</a></li>
+            <li><a href="#persistencia">Persistencia de Datos</a></li>
+            <li><a href="#firebase">Integración con Firebase</a></li>
+            <li><a href="#optimizaciones">Optimizaciones de Rendimiento</a></li>
+            <li><a href="#guia">Guía de Desarrollo</a></li>
+            <li><a href="#despliegue">Despliegue</a></li>
+            <li><a href="#seguridad">Consideraciones de Seguridad</a></li>
+            <li><a href="#testing">Testing</a></li>
+            <li><a href="#mantenimiento">Mantenimiento y Evolución</a></li>
+        </ul>
+    </nav>
+
+    <section id="introduccion" class="section">
+        <h2>Introducción</h2>
+        <p>Smart Tasks es una aplicación móvil híbrida de gestión de tareas desarrollada con Ionic Framework y Angular. Esta aplicación permite a los usuarios crear, editar, eliminar y categorizar tareas, con soporte para modo oscuro/claro y configuración remota a través de Firebase.</p>
+        <p>Esta documentación técnica está destinada a desarrolladores que necesiten trabajar en el proyecto, proporcionando una visión detallada de la arquitectura, tecnologías y patrones de diseño utilizados.</p>
+    </section>
+
+    <section id="arquitectura" class="section">
+        <h2>Arquitectura de la Aplicación</h2>
+        <p>La aplicación sigue una arquitectura limpia (Clean Architecture) con separación clara de responsabilidades, organizada en las siguientes capas:</p>
+
+        <h3>Capas Arquitectónicas</h3>
+        <ol>
+            <li><strong>Presentation Layer</strong> (<code>src/app/presentation/</code>): Componentes de interfaz de usuario, páginas y componentes compartidos.</li>
+            <li><strong>Use Cases Layer</strong> (<code>src/app/core/use-cases/</code>): Lógica de negocio y casos de uso de la aplicación.</li>
+            <li><strong>Core Layer</strong> (<code>src/app/core/</code>): Modelos de datos, interfaces, tokens de inyección de dependencias y servicios transversales.</li>
+            <li><strong>Data Layer</strong> (<code>src/app/data/</code>): Repositorios y servicios de acceso a datos.</li>
+        </ol>
+
+        <h3>Principios Arquitectónicos</h3>
+        <ul>
+            <li><strong>Dependency Inversion</strong>: Uso de tokens de inyección de dependencias para desacoplar interfaces de implementaciones.</li>
+            <li><strong>Single Responsibility</strong>: Cada clase tiene una única responsabilidad.</li>
+            <li><strong>Open/Closed</strong>: Las clases están abiertas a extensión pero cerradas a modificación.</li>
+            <li><strong>Liskov Substitution</strong>: Las implementaciones pueden ser sustituidas por sus interfaces.</li>
+            <li><strong>Interface Segregation</strong>: Interfaces específicas para cada repositorio.</li>
+        </ul>
+    </section>
+
+    <section id="tecnologias" class="section">
+        <h2>Tecnologías Utilizadas</h2>
+
+        <h3>Framework y Lenguajes</h3>
+        <ul>
+            <li><strong>Angular 20</strong>: Framework principal para el desarrollo de la aplicación.</li>
+            <li><strong>TypeScript</strong>: Lenguaje de programación con tipado estático.</li>
+            <li><strong>Ionic 8</strong>: Framework para desarrollo de aplicaciones móviles híbridas.</li>
+        </ul>
+
+        <h3>Plataformas Móviles</h3>
+        <ul>
+            <li><strong>Capacitor</strong>: Runtime para aplicaciones híbridas que permite acceso nativo.</li>
+            <li><strong>Cordova</strong>: Plataforma para construir aplicaciones móviles con HTML, CSS y JavaScript.</li>
+        </ul>
+
+        <h3>Servicios Backend</h3>
+        <ul>
+            <li><strong>Firebase</strong>: Plataforma de Google para backend como servicio.
+                <ul>
+                    <li><strong>Firebase Remote Config</strong>: Configuración remota de features.</li>
+                    <li><strong>Firebase Hosting</strong>: Hosting de la aplicación web (opcional).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Gestión de Estado y Reactividad</h3>
+        <ul>
+            <li><strong>Signals</strong>: Sistema de señales de Angular para gestión reactiva de estado.</li>
+            <li><strong>RxJS</strong>: Biblioteca para programación reactiva (usada en algunos servicios).</li>
+        </ul>
+
+        <h3>Almacenamiento</h3>
+        <ul>
+            <li><strong>LocalStorage</strong>: Almacenamiento local persistente del navegador/dispositivo.</li>
+        </ul>
+
+        <h3>Herramientas de Desarrollo</h3>
+        <ul>
+            <li><strong>Angular CLI</strong>: Herramientas de línea de comandos para Angular.</li>
+            <li><strong>Ionic CLI</strong>: Herramientas de línea de comandos para Ionic.</li>
+            <li><strong>ESLint</strong>: Linting y formateo de código.</li>
+            <li><strong>Karma + Jasmine</strong>: Framework de testing.</li>
+        </ul>
+    </section>
+
+    <section id="estructura" class="section">
+        <h2>Estructura del Proyecto</h2>
+        <pre><code>src/
+├── app/
+│   ├── core/                    # Capa central de la aplicación
+│   │   ├── interfaces/          # Interfaces de repositorios
+│   │   ├── models/              # Modelos de datos
+│   │   ├── services/            # Servicios transversales
+│   │   ├── tokens/              # Tokens de inyección de dependencias
+│   │   └── use-cases/           # Casos de uso
+│   ├── data/                    # Capa de acceso a datos
+│   │   ├── repositories/        # Implementaciones de repositorios
+│   │   └── services/            # Servicios de infraestructura
+│   ├── presentation/            # Capa de presentación
+│   │   ├── pages/               # Páginas de la aplicación
+│   │   └── shared/              # Componentes compartidos
+│   ├── home/                    # Página de inicio (redirige a tasks)
+│   ├── app.config.ts            # Configuración de Angular
+│   ├── app.routes.ts            # Definición de rutas
+│   └── app.component.*          # Componente raíz
+├── environments/                # Configuraciones por entorno
+├── theme/                       # Tema global de la aplicación
+├── assets/                      # Recursos estáticos
+├── index.html                   # Punto de entrada HTML
+└── main.ts                      # Punto de entrada TypeScript</code></pre>
+    </section>
+
+    <section id="configuracion" class="section">
+        <h2>Configuración y Dependencias</h2>
+
+        <h3>Archivo <code>package.json</code></h3>
+        <p>Las dependencias principales incluyen:</p>
+        <pre><code>{
+  "@angular/core": "^20.0.0",
+  "@ionic/angular": "^8.0.0",
+  "@angular/fire": "^20.0.1",
+  "firebase": "^11.10.0",
+  "@capacitor/core": "8.1.0"
+}</code></pre>
+
+        <h3>Configuración de Angular (<code>app.config.ts</code>)</h3>
+        <p>La configuración incluye:</p>
+        <ul>
+            <li>Proveedores de Ionic</li>
+            <li>Configuración de rutas con preload de módulos</li>
+            <li>Inyección de dependencias para repositorios usando tokens</li>
+        </ul>
+
+        <h3>Configuración de Ionic (<code>ionic.config.json</code>)</h3>
+        <pre><code>{
+  "name": "smart-tasks",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}</code></pre>
+    </section>
+
+    <section id="servicios" class="section">
+        <h2>Servicios y Repositorios</h2>
+
+        <h3>Repositorios</h3>
+        <p>Los repositorios implementan interfaces definidas en <code>core/interfaces/</code> y proporcionan acceso a datos:</p>
+        <ul>
+            <li><strong>TaskRepository</strong>: Gestiona operaciones CRUD de tareas</li>
+            <li><strong>CategoryRepository</strong>: Gestiona operaciones CRUD de categorías</li>
+        </ul>
+        <p>Ambos repositorios usan <code>StorageService</code> para persistencia local.</p>
+
+        <h3>Servicios Transversales</h3>
+        <ul>
+            <li><strong>StorageService</strong>: Abstracción sobre localStorage con prefijo de aplicación</li>
+            <li><strong>RemoteConfigService</strong>: Integración con Firebase Remote Config</li>
+            <li><strong>ThemeService</strong>: Gestión del modo oscuro/claro</li>
+        </ul>
+    </section>
+
+    <section id="usecases" class="section">
+        <h2>Use Cases</h2>
+        <p>Los casos de uso encapsulan la lógica de negocio y se organizan por entidad:</p>
+
+        <h3>Task Use Cases</h3>
+        <ul>
+            <li><code>GetTasksUseCase</code>: Obtener todas las tareas</li>
+            <li><code>CreateTaskUseCase</code>: Crear nueva tarea</li>
+            <li><code>UpdateTaskUseCase</code>: Actualizar tarea existente</li>
+            <li><code>DeleteTaskUseCase</code>: Eliminar tarea</li>
+        </ul>
+
+        <h3>Category Use Cases</h3>
+        <ul>
+            <li><code>GetCategoriesUseCase</code>: Obtener todas las categorías</li>
+            <li><code>CreateCategoryUseCase</code>: Crear nueva categoría</li>
+            <li><code>UpdateCategoryUseCase</code>: Actualizar categoría</li>
+            <li><code>DeleteCategoryUseCase</code>: Eliminar categoría</li>
+        </ul>
+    </section>
+
+    <section id="componentes" class="section">
+        <h2>Componentes de Presentación</h2>
+
+        <h3>Páginas</h3>
+        <ul>
+            <li><strong>TasksPage</strong>: Página principal con lista de tareas, filtros y acciones</li>
+            <li><strong>CategoriesPage</strong>: Página de gestión de categorías</li>
+        </ul>
+
+        <h3>Componentes Compartidos</h3>
+        <ul>
+            <li><strong>TaskModalComponent</strong>: Modal para crear/editar tareas</li>
+            <li><strong>CategoryModalComponent</strong>: Modal para crear/editar categorías</li>
+        </ul>
+
+        <h3>Características de UI</h3>
+        <ul>
+            <li>Diseño responsivo con Ionic components</li>
+            <li>Soporte completo para modo oscuro/claro</li>
+            <li>Animaciones y transiciones nativas de Ionic</li>
+            <li>Toast y alertas para feedback de usuario</li>
+        </ul>
+    </section>
+
+    <section id="estado" class="section">
+        <h2>Gestión de Estado</h2>
+        <p>La aplicación utiliza <strong>Angular Signals</strong> para gestión reactiva de estado:</p>
+        <pre><code>// Señales para estado reactivo
+tasks = signal&lt;Task[]&gt;([]);
+categories = signal&lt;Category[]&gt;([]);
+selectedCategoryFilter = signal&lt;string | null&gt;(null);
+searchQuery = signal('');
+
+// Señales computadas para filtrado reactivo
+filteredTasks = computed(() =&gt; {
+  let filtered = this.tasks();
+  // Lógica de filtrado...
+  return filtered;
+});</code></pre>
+        <p>Ventajas:</p>
+        <ul>
+            <li>Actualización automática de UI</li>
+            <li>Optimización automática de cambios</li>
+            <li>Limpieza automática en <code>ngOnDestroy</code></li>
+        </ul>
+    </section>
+
+    <section id="persistencia" class="section">
+        <h2>Persistencia de Datos</h2>
+
+        <h3>Estrategia de Almacenamiento</h3>
+        <ul>
+            <li><strong>LocalStorage</strong> para persistencia local</li>
+            <li>Datos serializados en JSON</li>
+            <li>Prefijo <code>smart_tasks_</code> para evitar conflictos</li>
+        </ul>
+
+        <h3>Estructura de Datos</h3>
+        <pre><code>interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  categoryId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: Date;
+  updatedAt: Date;
+}</code></pre>
+    </section>
+
+    <section id="firebase" class="section">
+        <h2>Integración con Firebase</h2>
+
+        <h3>Remote Config</h3>
+        <ul>
+            <li>Configuración remota de features sin despliegue</li>
+            <li>Feature flag <code>show_categories</code> para activar/desactivar módulo de categorías</li>
+            <li>Actualización en tiempo real</li>
+        </ul>
+        <pre><code>// Inicialización
+async initialize(): Promise&lt;void&gt; {
+  await fetchAndActivate(this.remoteConfig);
+}
+
+// Obtener valor
+getShowCategories(): boolean {
+  return getValue(this.remoteConfig, 'show_categories').asBoolean();
+}</code></pre>
+
+        <h3>Configuración de Firebase</h3>
+        <p>Archivo <code>environment.ts</code>:</p>
+        <pre><code>export const environment = {
+  firebase: {
+    apiKey: "...",
+    authDomain: "...",
+    projectId: "...",
+    // ...
+  }
+};</code></pre>
+    </section>
+
+    <section id="optimizaciones" class="section">
+        <h2>Optimizaciones de Rendimiento</h2>
+
+        <h3>Lazy Loading</h3>
+        <ul>
+            <li>Módulos cargados bajo demanda</li>
+            <li>Reducción del bundle inicial</li>
+        </ul>
+
+        <h3>Gestión Eficiente de Estado</h3>
+        <ul>
+            <li>Signals computadas para filtrado sin recálculos innecesarios</li>
+            <li>Map para búsqueda O(1) en categorías</li>
+        </ul>
+
+        <h3>Optimizaciones de Build</h3>
+        <ul>
+            <li>Tree-shaking automático</li>
+            <li>Minificación y compresión</li>
+            <li>Source maps para debugging</li>
+        </ul>
+
+        <h3>Limpieza de Memoria</h3>
+        <ul>
+            <li><code>ngOnDestroy</code> con limpieza de signals</li>
+            <li>Cancelación de suscripciones RxJS</li>
+        </ul>
+    </section>
+
+    <section id="guia" class="section">
+        <h2>Guía de Desarrollo</h2>
+
+        <h3>Configuración del Entorno</h3>
+        <ol>
+            <li>Instalar dependencias:
+                <pre><code>npm install</code></pre>
+            </li>
+            <li>Instalar Ionic CLI globalmente:
+                <pre><code>npm install -g @ionic/cli</code></pre>
+            </li>
+            <li>Ejecutar en desarrollo:
+                <pre><code>npm start
+# o
+ionic serve</code></pre>
+            </li>
+        </ol>
+
+        <h3>Comandos Útiles</h3>
+        <pre><code># Build para producción
+npm run build
+
+# Ejecutar tests
+npm test
+
+# Linting
+npm run lint
+
+# Build para plataformas móviles
+ionic capacitor build android
+ionic capacitor build ios</code></pre>
+
+        <h3>Estructura de Commits</h3>
+        <ul>
+            <li><code>feat:</code> Nuevas funcionalidades</li>
+            <li><code>fix:</code> Corrección de bugs</li>
+            <li><code>docs:</code> Cambios en documentación</li>
+            <li><code>style:</code> Cambios de estilo</li>
+            <li><code>refactor:</code> Refactorización de código</li>
+            <li><code>test:</code> Cambios en tests</li>
+        </ul>
+
+        <h3>Convenciones de Código</h3>
+        <ul>
+            <li><strong>TypeScript</strong>: Tipado estricto, interfaces para DTOs</li>
+            <li><strong>Nombres</strong>: PascalCase para clases, camelCase para variables</li>
+            <li><strong>Imports</strong>: Agrupados por Angular, Ionic, terceros, locales</li>
+            <li><strong>Signals</strong>: Preferidos sobre BehaviorSubject para estado local</li>
+        </ul>
+    </section>
+
+    <section id="despliegue" class="section">
+        <h2>Despliegue</h2>
+
+        <h3>Web</h3>
+        <pre><code>npm run build
+# Desplegar dist/ a hosting (Firebase, Vercel, etc.)</code></pre>
+
+        <h3>Móvil</h3>
+        <ol>
+            <li>Build web:
+                <pre><code>npm run build</code></pre>
+            </li>
+            <li>Sincronizar con Capacitor:
+                <pre><code>npx cap sync</code></pre>
+            </li>
+            <li>Abrir en IDE nativo:
+                <pre><code>npx cap open android
+npx cap open ios</code></pre>
+            </li>
+        </ol>
+
+        <h3>Variables de Entorno</h3>
+        <ul>
+            <li><code>environment.ts</code>: Desarrollo</li>
+            <li><code>environment.prod.ts</code>: Producción</li>
+            <li>Configurar Firebase credentials por entorno</li>
+        </ul>
+    </section>
+
+    <section id="seguridad" class="section">
+        <h2>Consideraciones de Seguridad</h2>
+        <ul>
+            <li>Validación de entrada en DTOs</li>
+            <li>Sanitización de datos de localStorage</li>
+            <li>Configuración de Firebase con reglas de seguridad</li>
+            <li>No almacenar datos sensibles en localStorage</li>
+        </ul>
+    </section>
+
+    <section id="testing" class="section">
+        <h2>Testing</h2>
+
+        <h3>Estrategia de Testing</h3>
+        <ul>
+            <li><strong>Unit Tests</strong>: Servicios, use cases, utilidades</li>
+            <li><strong>Integration Tests</strong>: Repositorios con StorageService</li>
+            <li><strong>E2E Tests</strong>: Flujos completos de usuario (futuro)</li>
+        </ul>
+
+        <h3>Ejecución de Tests</h3>
+        <pre><code># Tests unitarios
+npm test
+
+# Coverage
+npm test -- --code-coverage</code></pre>
+    </section>
+
+    <section id="mantenimiento" class="section">
+        <h2>Mantenimiento y Evolución</h2>
+
+        <h3>Deuda Técnica</h3>
+        <ul>
+            <li>Migración gradual a Angular Signals completa</li>
+            <li>Implementación de tests E2E</li>
+            <li>Optimización de bundle size</li>
+        </ul>
+
+        <h3>Escalabilidad</h3>
+        <ul>
+            <li>Arquitectura modular facilita agregar nuevas features</li>
+            <li>Separación de capas permite cambiar implementaciones</li>
+            <li>Lazy loading soporta crecimiento de la aplicación</li>
+        </ul>
+
+        <h3>Monitoreo</h3>
+        <ul>
+            <li>Logging de errores en consola</li>
+            <li>Firebase Analytics para métricas de uso</li>
+            <li>Remote Config para feature flags</li>
+        </ul>
+    </section>
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: var(--secondary-color);">
+        <p>Esta documentación debe mantenerse actualizada con cualquier cambio significativo en la arquitectura o tecnologías utilizadas.</p>
+    </footer>
+</body>
+</html>
