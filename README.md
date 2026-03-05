@@ -399,6 +399,8 @@ smart-tasks/
 │   ├── android/                       # Proyecto Android generado
 │   └── ios/                           # Proyecto iOS configurado
 ├── www/                               # Build web generado
+├── DOCUMENTACION_TECNICA.md           # Documentación técnica en español
+├── documentacion_tecnica.html         # Documentación técnica en HTML
 ├── config.xml                         # Configuración Cordova
 └── package.json
 ```
@@ -478,6 +480,20 @@ ionic cordova build ios --prod --release       # iOS producción (requiere macOS
 ionic cordova run android                      # Emulador Android
 ionic cordova run ios                          # Simulador iOS (requiere macOS)
 ```
+
+---
+
+## 📄 Documentación Técnica
+
+Además de este README, el proyecto cuenta con documentación técnica detallada disponible en dos formatos:
+
+| Archivo | Formato | Descripción |
+|---------|---------|-------------|
+| `DOCUMENTACION_TECNICA.md` | Markdown | Documentación técnica completa en español |
+| `documentacion_tecnica.html` | HTML | Misma documentación con diseño visual moderno, navegación por secciones y optimizada para lectura en navegador |
+
+### Objetivo
+Esta documentación está dirigida a **futuros desarrolladores** que necesiten entender, mantener o evolucionar el proyecto. Cubre en detalle la arquitectura Clean Architecture, patrones de diseño aplicados, servicios implementados, gestión de estado con Angular Signals, integración con Firebase Remote Config, optimizaciones de rendimiento y guías de desarrollo y despliegue.
 
 ---
 
