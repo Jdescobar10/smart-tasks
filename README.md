@@ -1,8 +1,24 @@
-# Smart Tasks 📝
+<p align="center">
+  <img src="resources/icon.png" width="120" height="120" alt="Smart Tasks Logo"/>
+</p>
 
-Aplicación móvil híbrida de gestión de tareas construida con **Ionic + Angular + Cordova + Firebase**.
+<h1 align="center">Smart Tasks 📝</h1>
 
-> Prueba Técnica - Desarrollador Mobile Ionic
+<p align="center">
+  Aplicación móvil híbrida de gestión de tareas construida con <strong>Ionic + Angular + Cordova + Firebase</strong>.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Ionic-7+-blue?logo=ionic" />
+  <img src="https://img.shields.io/badge/Angular-17+-red?logo=angular" />
+  <img src="https://img.shields.io/badge/Firebase-Remote%20Config-orange?logo=firebase" />
+  <img src="https://img.shields.io/badge/Cordova-13+-green" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-purple" />
+</p>
+
+<p align="center">
+  <em>Prueba Técnica - Desarrollador Mobile Ionic</em>
+</p>
 
 ---
 
@@ -37,6 +53,12 @@ Aplicación móvil híbrida de gestión de tareas construida con **Ionic + Angul
 - ✅ Preferencia guardada en `localStorage` (persiste entre sesiones)
 - ✅ Soporte completo en todas las pantallas: Tasks, Categories y modales
 - ✅ Colores, textos, fondos y popover adaptados a cada modo
+
+### 📱 Identidad de la App
+- ✅ Nombre: **Smart Tasks**
+- ✅ Ícono personalizado con diseño propio (ST en morado)
+- ✅ ID: `com.juandavid.smarttasks`
+- ✅ Versión: `1.0.0`
 
 ---
 
@@ -142,7 +164,7 @@ ionic cordova run android --device
 
 ### ¿Por qué no se incluye el IPA?
 
-La plataforma iOS está completamente configurada en el proyecto (`platforms/ios` incluido). Sin embargo, Apple **exige obligatoriamente** macOS y Xcode para compilar y firmar aplicaciones iOS. Esta es una restricción impuesta por Apple, no por el framework.
+La plataforma iOS está completamente configurada en el proyecto (`platforms/ios` incluido). Sin embargo, Apple **exige obligatoriamente** macOS y Xcode para compilar y firmar aplicaciones iOS.
 
 Lo que está listo:
 - ✅ Plataforma iOS agregada con `ionic cordova platform add ios`
@@ -152,80 +174,25 @@ Lo que está listo:
 
 ### Pasos para generar el IPA (requiere macOS)
 
-**1. Agregar la plataforma iOS (solo la primera vez):**
 ```bash
 ionic cordova platform add ios
-```
-
-**2. Instalar CocoaPods:**
-```bash
 sudo gem install cocoapods
-```
-
-**3. Build de producción:**
-```bash
 ionic cordova build ios --prod --release
-```
-
-**4. Abrir en Xcode:**
-```bash
 open platforms/ios/Smart\ Tasks.xcworkspace
 ```
 
-**5. Generar IPA desde Xcode:**
-- Menú: **Product → Archive**
-- Luego: **Distribute App → Ad Hoc o App Store**
-- Exportar el archivo `.ipa`
-
-**6. Ejecutar en simulador iOS:**
-```bash
-ionic cordova run ios
-```
-
-**7. Ejecutar en dispositivo físico iOS:**
-```bash
-ionic cordova run ios --device
-```
+Desde Xcode: **Product → Archive → Distribute App**
 
 ---
 
 ## 🔥 Firebase y Remote Config
 
-### Configuración
-
-Las credenciales de Firebase están en `src/environments/environment.ts`:
-
-```typescript
-export const environment = {
-  production: false,
-  firebase: {
-    apiKey: "...",
-    authDomain: "...",
-    projectId: "...",
-    storageBucket: "...",
-    messagingSenderId: "...",
-    appId: "..."
-  }
-};
-```
-
 ### 🚩 Feature Flag — `show_categories`
 
-El parámetro `show_categories` en Firebase Remote Config controla en tiempo real si el módulo de categorías es visible, **sin necesidad de actualizar ni redesplegar la app**.
-
-#### `show_categories = true` ✅
-- Filtros de categorías visibles en pantalla de tareas
-- Chips de colores en cada tarea
-- Barra de color lateral por categoría
-- Botón de navegación "Categories" visible
-- Acceso completo al módulo de categorías
-
-#### `show_categories = false` ❌
-- Filtros de categorías ocultos
-- Chips de categoría ocultos
-- Barra de color lateral oculta
-- Botón "Categories" oculto
-- Módulo de categorías completamente inaccesible
+| Valor | Comportamiento |
+|-------|---------------|
+| `true` | Categorías visibles, filtros activos, navegación completa |
+| `false` | Módulo de categorías completamente oculto |
 
 #### Cómo activar/desactivar
 1. Ir a [Firebase Console](https://console.firebase.google.com) → Remote Config
@@ -234,122 +201,20 @@ El parámetro `show_categories` en Firebase Remote Config controla en tiempo rea
 4. Clic en **"Publicar cambios"**
 5. Recargar la app → el cambio se refleja instantáneamente
 
-#### Flujo en el código
-```
-Firebase Remote Config
-        ↓
-RemoteConfigService.initialize()  ← Se ejecuta al arrancar la app
-        ↓
-RemoteConfigService.getShowCategories()  ← Retorna true/false
-        ↓
-TasksPage.showCategories (signal)  ← Actualiza el estado
-        ↓
-tasks.page.html → @if(showCategories()) muestra/oculta elementos
-```
-
 ---
 
 ## 🌓 Dark / Light Mode
 
-La aplicación incluye soporte completo para modo oscuro y claro con persistencia de preferencia del usuario.
-
-### Cómo funciona
-
-- Clic en el ícono 🌙 en el header → activa modo oscuro
-- Clic en el ícono ☀️ en el header → activa modo claro
-- La preferencia se guarda automáticamente y persiste entre sesiones
-
-### Implementación
-
-**ThemeService** gestiona el estado del tema:
-```typescript
-themeService.toggleTheme();       // Alternar tema
-themeService.isDarkMode();        // true | false
-```
-
-El servicio aplica la clase `dark` al `body`:
-```typescript
-document.body.classList.add('dark');
-localStorage.setItem('darkMode', 'true');
-```
+- Clic en 🌙 → activa modo oscuro
+- Clic en ☀️ → activa modo claro
+- Preferencia guardada automáticamente en `localStorage`
 
 ### Pantallas soportadas
-- ✅ Tasks (lista de tareas)
-- ✅ Categories (lista de categorías)
-- ✅ Modal New/Edit Task
-- ✅ Modal New/Edit Category
-- ✅ Popover de selección de categoría
-- ✅ Alertas de confirmación
+- ✅ Tasks, Categories, Modales, Popovers y Alertas
 
 ---
 
 ## ⚡ Optimización de Rendimiento
-
-### 1. Carga inicial de la aplicación
-
-**Lazy Loading de rutas**
-```typescript
-{
-  path: 'tasks',
-  loadComponent: () =>
-    import('./presentation/pages/tasks/tasks.page').then(m => m.TasksPage)
-}
-```
-
-**Carga paralela de datos con Promise.all**
-```typescript
-const [tasks, categories] = await Promise.all([
-  this.getTasksUC.execute(),
-  this.getCategoriesUC.execute()
-]);
-```
-
-### 2. Manejo eficiente de grandes cantidades de tareas
-
-**Computed Signals para filtrado reactivo**
-```typescript
-filteredTasks = computed(() => {
-  let result = this.tasks();
-  if (this.selectedCategoryFilter()) {
-    result = result.filter(t => t.categoryId === this.selectedCategoryFilter());
-  }
-  if (this.searchQuery()) {
-    result = result.filter(t => t.title.toLowerCase().includes(this.searchQuery()));
-  }
-  return result;
-});
-```
-
-**Map para búsqueda O(1) de categorías**
-```typescript
-private categoryMap = computed(() => {
-  const map = new Map<string, Category>();
-  this.categories().forEach(c => map.set(c.id, c));
-  return map;
-});
-
-getCategoryById(id: string | null): Category | undefined {
-  if (!id) return undefined;
-  return this.categoryMap().get(id);
-}
-```
-
-**TrackBy en listas**
-```html
-@for (task of filteredTasks(); track task.id) { ... }
-```
-
-### 3. Minimización del uso de memoria
-
-**ngOnDestroy con limpieza de signals**
-```typescript
-ngOnDestroy() {
-  this.tasks.set([]);
-  this.categories.set([]);
-}
-```
-
-### Resumen de mejoras
 
 | Técnica | Impacto | Área |
 |---------|---------|------|
@@ -359,7 +224,6 @@ ngOnDestroy() {
 | Map O(1) lookup | Búsqueda instantánea vs O(n) | Listas grandes |
 | TrackBy en listas | Evita re-render de items sin cambios | Listas grandes |
 | ngOnDestroy cleanup | Libera memoria al cambiar de página | Memoria |
-| Standalone Components | Menos overhead de NgModules | Memoria |
 
 ---
 
@@ -371,37 +235,25 @@ smart-tasks/
 │   └── app/
 │       ├── core/                      # Capa de Dominio
 │       │   ├── models/
-│       │   │   ├── task.model.ts
-│       │   │   └── category.model.ts
-│       │   ├── interfaces/            # Contratos SOLID - DIP
-│       │   │   ├── task-repository.interface.ts
-│       │   │   └── category-repository.interface.ts
-│       │   ├── use-cases/             # Lógica de negocio pura
-│       │   │   ├── task/
-│       │   │   └── category/
+│       │   ├── interfaces/
+│       │   ├── use-cases/
 │       │   └── services/
 │       │       ├── remote-config.service.ts
 │       │       └── theme.service.ts
 │       ├── data/                      # Capa de Datos
-│       │   ├── repositories/
-│       │   └── services/
-│       │       └── storage.service.ts
 │       └── presentation/              # Capa de Presentación
 │           ├── pages/
 │           │   ├── tasks/
 │           │   └── categories/
-│           └── shared/
-│               ├── components/
-│               │   ├── task-modal/
-│               │   └── category-modal/
-│               └── pipes/
+│           └── shared/components/
+├── resources/
+│   └── icon.png                       # Ícono personalizado ST
 ├── platforms/
 │   ├── android/                       # Proyecto Android generado
 │   └── ios/                           # Proyecto iOS configurado
-├── www/                               # Build web generado
-├── DOCUMENTACION_TECNICA.md           # Documentación técnica en español
-├── documentacion_tecnica.html         # Documentación técnica en HTML
-├── config.xml                         # Configuración Cordova
+├── DOCUMENTACION_TECNICA.md
+├── documentacion_tecnica.html
+├── config.xml
 └── package.json
 ```
 
@@ -411,50 +263,25 @@ smart-tasks/
 
 ### ¿Cuáles fueron los principales desafíos?
 
-**1. Compatibilidad Cordova con Angular Standalone**
-El mayor desafío fue configurar `ionic-cordova-build` en el `angular.json`, ya que el proyecto usa arquitectura `angular-standalone` que no incluye por defecto los builders de Cordova. Se resolvió agregando manualmente los targets `ionic-cordova-build` e `ionic-cordova-serve` con el campo `browserTarget` correcto.
+**1. Compatibilidad Cordova con Angular Standalone** — Se resolvió configurando manualmente los builders `ionic-cordova-build` en `angular.json`.
 
-**2. Incompatibilidad de Gradle con Cordova**
-Cordova no es compatible nativamente con Gradle 9.x. Se resolvió dejando que Cordova descargara su propia versión de Gradle (8.13) internamente a través del `gradlew` wrapper del proyecto Android.
+**2. Incompatibilidad de Gradle con Cordova** — Cordova usa su propia versión de Gradle (8.13) internamente.
 
-**3. Caché de Remote Config**
-Firebase Remote Config cachea los valores por 1 hora por defecto. Durante desarrollo esto impedía ver los cambios inmediatamente. Se resolvió configurando `minimumFetchIntervalMillis = 0` en modo desarrollo.
+**3. Caché de Remote Config** — Se resolvió configurando `minimumFetchIntervalMillis = 0` en desarrollo.
 
-**4. Dark Mode en componentes Ionic**
-Los componentes de Ionic como `ion-select`, `ion-alert` y `ion-popover` se renderizan fuera del shadow DOM del componente, requiriendo estilos globales específicos para que el modo oscuro los afectara correctamente.
+**4. Dark Mode en componentes Ionic** — Los componentes como `ion-select` y `ion-alert` requieren estilos globales al renderizarse fuera del shadow DOM.
 
 ---
 
-### ¿Qué técnicas de optimización de rendimiento aplicaste y por qué?
+### ¿Qué técnicas de optimización aplicaste?
 
-| Técnica | Motivo |
-|---------|--------|
-| **Angular Signals + computed()** | Reactividad granular, recálculo solo cuando cambian dependencias |
-| **Lazy Loading** | Reduce el bundle inicial cargando solo lo necesario |
-| **Promise.all** | Carga paralela reduce el tiempo de espera a la mitad |
-| **Map O(1) lookup** | Búsqueda de categorías en tiempo constante independiente del tamaño |
-| **TrackBy en listas** | Evita re-renders innecesarios al actualizar tareas |
-| **ngOnDestroy cleanup** | Libera memoria al destruir componentes |
-| **Standalone Components** | Elimina NgModules, reduce overhead de memoria |
-| **Build --prod** | Tree-shaking + minificación reduce hasta 60% el tamaño del bundle |
+Angular Signals con `computed()` para reactividad granular, Lazy Loading para reducir el bundle inicial, `Promise.all` para carga paralela, `Map` para búsqueda O(1) de categorías, TrackBy en listas y `ngOnDestroy` para limpieza de memoria.
 
 ---
 
-### ¿Cómo aseguraste la calidad y mantenibilidad del código?
+### ¿Cómo aseguraste la calidad del código?
 
-**1. Clean Architecture**
-Separación estricta en 3 capas (Core, Data, Presentation) siguiendo principios SOLID, especialmente el Principio de Inversión de Dependencias (DIP) mediante tokens de inyección.
-
-**2. Principios SOLID aplicados**
-- **SRP**: cada clase tiene una única responsabilidad (use cases separados por operación)
-- **DIP**: repositorios definidos como interfaces, implementados en la capa Data
-- **OCP**: nuevas funcionalidades se agregan sin modificar código existente
-
-**3. Tipado estricto con TypeScript**
-Modelos tipados para `Task` y `Category` evitan errores en tiempo de ejecución.
-
-**4. Control de versiones con Git**
-Commits descriptivos siguiendo convención `feat:`, `fix:`, `perf:`, `chore:` para trazabilidad completa de cambios.
+Clean Architecture con 3 capas (Core, Data, Presentation), principios SOLID especialmente DIP mediante tokens de inyección, tipado estricto con TypeScript y commits descriptivos con convención `feat:`, `fix:`, `perf:`, `chore:`.
 
 ---
 
@@ -464,7 +291,18 @@ Commits descriptivos siguiendo convención `feat:`, `fix:`, `perf:`, `chore:` pa
 |---------|-----------|-----------|
 | `app-debug.apk` | Android debug | `platforms/android/app/build/outputs/apk/debug/` |
 | `app-release.aab` | Android producción | `platforms/android/app/build/outputs/bundle/release/` |
-| IPA | iOS | ⚠️ Requiere macOS + Xcode para generarse |
+| IPA | iOS | ⚠️ Requiere macOS + Xcode |
+
+---
+
+## 📄 Documentación Técnica
+
+| Archivo | Formato | Descripción |
+|---------|---------|-------------|
+| `DOCUMENTACION_TECNICA.md` | Markdown | Documentación técnica completa en español |
+| `documentacion_tecnica.html` | HTML | Documentación con diseño visual moderno y logo |
+
+> Dirigida a futuros desarrolladores que necesiten entender, mantener o evolucionar el proyecto.
 
 ---
 
@@ -475,29 +313,15 @@ ionic serve                                    # Desarrollo en navegador
 ionic build --prod                             # Build web producción
 ionic cordova build android                    # APK debug
 ionic cordova build android --prod --release   # AAB producción
-ionic cordova build ios                        # iOS debug (requiere macOS)
 ionic cordova build ios --prod --release       # iOS producción (requiere macOS)
 ionic cordova run android                      # Emulador Android
-ionic cordova run ios                          # Simulador iOS (requiere macOS)
 ```
-
----
-
-## 📄 Documentación Técnica
-
-Además de este README, el proyecto cuenta con documentación técnica detallada disponible en dos formatos:
-
-| Archivo | Formato | Descripción |
-|---------|---------|-------------|
-| `DOCUMENTACION_TECNICA.md` | Markdown | Documentación técnica completa en español |
-| `documentacion_tecnica.html` | HTML | Misma documentación con diseño visual moderno, navegación por secciones y optimizada para lectura en navegador |
-
-### Objetivo
-Esta documentación está dirigida a **futuros desarrolladores** que necesiten entender, mantener o evolucionar el proyecto. Cubre en detalle la arquitectura Clean Architecture, patrones de diseño aplicados, servicios implementados, gestión de estado con Angular Signals, integración con Firebase Remote Config, optimizaciones de rendimiento y guías de desarrollo y despliegue.
 
 ---
 
 ## 👨‍💻 Autor
 
-**Juan David Escobar**
-GitHub: [@Jdescobar10](https://github.com/Jdescobar10)
+<p align="center">
+  <strong>Juan David Escobar</strong><br/>
+  GitHub: <a href="https://github.com/Jdescobar10">@Jdescobar10</a>
+</p>
